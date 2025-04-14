@@ -20,6 +20,7 @@ app.use('/api/',require('./routes/CreateUser'))
 app.use('/api/',require('./routes/DisplayData'))
 app.use('/api/',require('./routes/CheckOut'))
 app.use('/api/',require('./routes/getOrderData'))
+app.use('/api/',require('./routes/googlelogin'))
 
 app.listen(port,()=>{
     console.log(`Server running on port no. ${port}`);

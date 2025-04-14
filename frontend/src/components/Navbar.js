@@ -1,90 +1,81 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "./ContextReducer";
-import Badge from 'react-bootstrap/Badge'
 import Modal from "../Modal";
-import Cart from "../screens/Cart"
+import Cart from "../screens/Cart";
+import Cookies from "js-cookie";
 
 export default function Navbar() {
-
   const [cartView, setCartView] = useState(false);
   const navigate = useNavigate();
   const cart = useCart();
   const [isHovered, setIsHovered] = useState(false);
 
-  const handleMouseOver = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseOut = () => {
-    setIsHovered(false);
-  };
+  const handleMouseOver = () => setIsHovered(true);
+  const handleMouseOut = () => setIsHovered(false);
 
   const logout = () => {
-    localStorage.removeItem("authToken");
-    navigate('/'); // Corrected from navigator('/') to navigate('/')
+    Cookies.remove("authToken");
+    Cookies.remove("userEmail");
+    navigate("/");
   };
+
   return (
-    <div className="bg-black" style={{ paddingBottom: "54px" }}>
-      <nav className="navbar fixed-top navbar-expand-lg navbar-dark bg-black" >
-        <div className="container-fluid">
-          <Link className="navbar-brand me-auto" to="/">
-            FoodMonkey
-          </Link>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div className="navbar-nav ms-2 me-auto">
-              <Link className="nav-link active" aria-current="page" to="/">
-                Home
-              </Link>
-            </div>
+    <div className="bg-black pb-14">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-black text-white shadow-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+          <Link to="/" className="text-xl font-bold text-white no-underline text-decoration:none">
+  FoodMonkey
+</Link>
+            <div className="hidden md:flex space-x-4 items-center">
+              {Cookies.get("authToken") ? (
+                <>
+                  <button
+                    onClick={() => setCartView(true)}
+                    className="relative bg-white text-green-600 px-3 py-1 rounded-md hover:bg-green-100"
+                  >
+                    My Cart
+                    <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs px-2 py-0.5 rounded-full">
+                      {cart.length}
+                    </span>
+                  </button>
+                  {cartView && (
+                    <Modal onClose={() => {
+                      setCartView(false);
+                      navigate('/');
+                    }}>
+                      <Cart />
+                    </Modal>
+                  )}
 
-            <div className="d-flex">
-              {localStorage.getItem("authToken") ? (
-                <div>
-                  <Link id="mycart" className="btn bg-white text-success mx-1" onClick={() => {
-                    setCartView(true)
-                  }}>
-                    My Cart <Badge pill bg="danger">{cart.length}</Badge>
-                  </Link>
-                  {cartView ? <Modal onClose={() => {
-                    setCartView(false)
-                    navigate('/')
-                  }}><Cart /> </Modal> : null}
-
-                  <Link id="myorder" className="btn bg-white text-success mx-1" to="/myorder">
+                  <Link to="/myorder" className="bg-white text-green-600 px-3 py-1 rounded-md hover:bg-green-100">
                     My Orders
                   </Link>
                   <button
-                    className={`btn  mx-1 ${isHovered ? ' bg-danger text-white' : 'bg-white text-success'}`}
                     onClick={logout}
                     onMouseOver={handleMouseOver}
                     onMouseOut={handleMouseOut}
+                    className={`px-3 py-1 rounded-md ${isHovered ? "bg-red-600 text-white" : "bg-white text-green-600"} transition`}
                   >
                     LogOut
                   </button>
-                </div>
+                </>
               ) : (
-                <div>
-                  <Link id="logout" className="btn bg-white text-success mx-1" to="/login">
+                <>
+                  <Link to="/login" className="bg-white text-green-600 px-3 py-1 rounded-md hover:bg-green-100 no-underline text-decoration:none">
                     Login
                   </Link>
-                  <Link id="signup" className="btn bg-white text-success mx-1" to="/signup">
+                  <Link to="/signup" className="bg-white text-green-600 px-3 py-1 rounded-md hover:bg-green-100 no-underline text-decoration:none">
                     SignUp
                   </Link>
-
-                </div>
+                </>
               )}
+            </div>
+
+            {/* Mobile menu toggle - implement separately if needed */}
+            <div className="md:hidden text-sm text-gray-400">
+              {/* Add hamburger icon & drawer logic here if needed */}
             </div>
           </div>
         </div>
