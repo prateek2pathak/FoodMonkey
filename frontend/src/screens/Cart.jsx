@@ -1,89 +1,92 @@
 import React from "react";
 import { useCart, useDispatch } from "../components/ContextReducer";
 import { useNavigate } from "react-router-dom";
+import Cookies from 'js-cookie'
 
 export default function Cart() {
-  let navigate= useNavigate();
+  let navigate = useNavigate();
   let data = useCart();
   let dispatch = useDispatch();
+
   if (data.length === 0) {
     return (
-      <div>
-        <div className="m-5 w-100 text-center fs-3">The Cart is Empty!</div>
+      <div className="flex justify-center items-center h-screen mx-auto my-5 p-5 bg-white shadow-lg rounded-lg">
+        <div className="text-2xl font-semibold text-center">The Cart is Empty!</div>
       </div>
     );
   }
 
   const handleCheckOut = async () => {
     try {
-      let userEmail = localStorage.getItem("userEmail");
+      let userEmail = Cookies.get("userEmail");
       console.log(userEmail);
       await fetch(process.env.REACT_APP_LINK + "/api/checkout", {
         method: "POST",
-        headers:{
-          'Content-Type':'application/json'
+        headers: {
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           order_data: data,
           email: userEmail,
           orderDate: new Date().toLocaleDateString(),
-        })
+        }),
       });
-      dispatch({type:"DROP"});
+      dispatch({ type: "DROP" });
       navigate('/');
     } catch (error) {
-      console.log('Error in fetching data');
+      console.log("Error in fetching data");
     }
   };
 
   let totalPrice = data.reduce((total, food) => total + food.price, 0);
+
   return (
-    <div>
-      {console.log(data)}
-      <div className="container m-auto mt-5 table-responsive  table-responsive-sm table-responsive-md">
-        <table className="table table-hover ">
-          <thead className=" text-success fs-4">
+    <div className="container min-h-screen mx-auto my-5 p-5 bg-white shadow-lg rounded-lg">
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white border-collapse">
+          <thead className="text-green-600 text-lg font-semibold">
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">Name</th>
-              <th scope="col">Quantity</th>
-              <th scope="col">Option</th>
-              <th scope="col">Amount</th>
-              <th scope="col"></th>
+              <th className="px-4 py-2 text-left">#</th>
+              <th className="px-4 py-2 text-left">Name</th>
+              <th className="px-4 py-2 text-left">Quantity</th>
+              <th className="px-4 py-2 text-left">Option</th>
+              <th className="px-4 py-2 text-left">Amount</th>
+              <th className="px-4 py-2 text-left">Action</th>
             </tr>
           </thead>
-          <tbody>
+         
+          <tbody className="text-gray-700">
             {data.map((food, index) => (
-              <tr>
-                <th scope="row">{index + 1}</th>
-                <td>{food.name}</td>
-                <td>{food.qty}</td>
-                <td>{food.size}</td>
-                <td>{food.price}</td>
-                <td>
+              <tr key={index} className="hover:bg-gray-100">
+                <td className="px-4 py-2">{index + 1}</td>
+                <td className="px-4 py-2">{food.name}</td>
+                <td className="px-4 py-2">{food.qty}</td>
+                <td className="px-4 py-2">{food.size}</td>
+                <td className="px-4 py-2">₹{food.price}</td>
+                <td className="px-4 py-2">
                   <button
-                    type="button"
-                    className="btn p-0"
+                    className="text-red-600 hover:text-red-800"
                     onClick={() => {
                       dispatch({ type: "REMOVE", index: index });
                     }}
                   >
                     X
-                  </button>{" "}
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-        <div>
-          <h1 className="fs-2">Total Price: {totalPrice}/-</h1>
-        </div>
-        <div>
-          <button className="btn bg-success mt-5 " onClick={handleCheckOut}>
-            {" "}
-            Check Out{" "}
-          </button>
-        </div>
+      </div>
+      
+      <div className="mt-5 flex justify-between items-center">
+        <h1 className="text-2xl font-semibold text-gray-800">Total Price: ₹{totalPrice}/-</h1>
+        <button
+          className="bg-green-600 text-white py-2 px-6 rounded-lg hover:bg-green-700 transition duration-300"
+          onClick={handleCheckOut}
+        >
+          Check Out
+        </button>
       </div>
     </div>
   );

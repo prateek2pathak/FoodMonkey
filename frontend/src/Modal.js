@@ -1,37 +1,32 @@
-import React from 'react'
-import ReactDom from 'react-dom'
-
-const MODAL_STYLES = {
-  position: 'fixed',
-  top: '50%',
-  left: '50%',
-  backgroundColor: 'rgb(34,34,34)',
-  transform: 'translate(-50%, -50%)',
-  zIndex: 1000,
-  height: '90%',
-  width: '90%'
-}
-
-const OVERLAY_STYLES = {
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  backgroundColor: 'rgba(0, 0, 0, .7)',
-  zIndex: 1000
-}
+import React from "react";
+import ReactDOM from "react-dom";
 
 export default function Modal({ children, onClose }) {
-
-  return ReactDom.createPortal(
+  return ReactDOM.createPortal(
     <>
-      <div style={OVERLAY_STYLES} />
-      <div style={MODAL_STYLES}>
-        <button className='btn bg-danger fs-4' style={{ marginLeft: "90%", marginTop: "40px" }} onClick={onClose}> X </button>
-        {children}
+      {/* Overlay */}
+      <div className="fixed inset-0 bg-black bg-opacity-70 z-40"></div>
+
+      {/* Modal Box */}
+      <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
+                      bg-gray-900 text-white z-50 w-[90%] h-[90%] rounded-lg shadow-lg p-6 overflow-auto">
+
+        {/* Close Button */}
+        <div className="flex justify-end">
+          <button
+            className="text-white bg-red-600 hover:bg-red-700 px-4 py-1 rounded text-lg"
+            onClick={onClose}
+          >
+            ✕
+          </button>
+        </div>
+
+        {/* Content */}
+        <div className="mt-4">
+          {children}
+        </div>
       </div>
     </>,
-    document.getElementById('cart-root')
-  )
+    document.getElementById("cart-root")
+  );
 }

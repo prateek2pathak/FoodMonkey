@@ -3,35 +3,37 @@ import React, { createContext, useContext, useReducer } from "react";
 const CartStateContext = createContext();
 const CartDispatchContext = createContext();
 
-const reducer=(state,action)=>{
-    switch (action.type) {
+const reducer = (state, action) => {
+  switch (action.type) {
 
-        case "ADD":
-            return [...state,{id:action.id,name:action.name,qty:action.qty,size:action.size,price:action.price}]
+    case "ADD":
+      return [...state, { id: action.id, name: action.name, qty: action.qty, size: action.size, price: action.price }]
 
-        case "REMOVE":
-          let newArr= [...state]
-          newArr.splice(action.id,1);
-          return newArr
+    case "REMOVE":
+      let newArr = [...state]
+      newArr.splice(action.id, 1);
+      return newArr
 
-          case "DROP":
-          let newAr= []
-          return newAr
+    case "DROP":
+      let newAr = []
+      return newAr
 
-        case "UPDATE":
-          let arr=[...state]
-          arr.find((food,index)=>{
-            if(food.id === action.id){
-              arr[index]={...food,qty:parseInt(action.qty)+food.qty, price:action.price+food.price};
-            }
-            return arr
-          })
-          return arr
+    case "UPDATE":
+      return state.map(food => {
+        if (food.id === action.id) {
+          return {
+            ...food,
+            qty: food.qty + parseInt(action.qty),
+            price: food.price + action.price
+          };
+        }
+        return food;
+      });
 
-        default:
-            console.log('Error in reducer');
-            break;
-    }
+    default:
+      console.log('Error in reducer');
+      break;
+  }
 }
 
 export const CartProvider = ({ children }) => {

@@ -34,6 +34,7 @@ export default function Login(){
 
         if(data.success){
         Cookies.set("authToken",data.jwtToken);
+        localStorage.setItem("username",user.displayName);
         navigate('/');
         }
 
@@ -66,8 +67,8 @@ export default function Login(){
                 console.log("Credentials email ",credentials.email);
                 
                 Cookies.set("userEmail",credentials.email,{expires:7});
-
-                // console.log(Cookies.get('authToken'));
+                localStorage.setItem("username",json.name);
+                
                 navigate('/');
             }
             else{
@@ -82,9 +83,9 @@ export default function Login(){
 
     return (
         <>
-            <div className="flex justify-center items-center min-h-screen bg-zinc-900">
+            <div className="flex justify-center items-center min-h-screen bg-zinc-700">
                 <Navbar/>
-                <div className="bg-zinc-200 text-black p-6 shadow-lg rounded-xl w-full max-w-md">
+                <div className="bg-orange-400 text-black p-6 shadow-lg rounded-xl w-full max-w-md">
                     <h3 className="text-center text-xl font-semibold mb-4">Login to FoodMonkey</h3>
                     <form onSubmit={handleSubmit}>
                     <div className="mb-4">

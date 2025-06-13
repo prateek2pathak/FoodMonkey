@@ -21,8 +21,8 @@ export default function Navbar() {
   };
 
   return (
-    <div className="bg-black pb-14">
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-black text-white shadow-md">
+    <div className=" pb-14">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-zinc-800 text-white shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
           <Link to="/" className="text-xl font-bold text-white no-underline text-decoration:none">
@@ -71,11 +71,6 @@ export default function Navbar() {
                   </Link>
                 </>
               )}
-            </div>
-
-            {/* Mobile menu toggle - implement separately if needed */}
-            <div className="md:hidden text-sm text-gray-400">
-              {/* Add hamburger icon & drawer logic here if needed */}
             </div>
           </div>
         </div>

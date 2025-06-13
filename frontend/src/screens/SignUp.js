@@ -36,6 +36,8 @@ export default function SignUp() {
 
       if(data.success){
         Cookies.set("authToken",data.jwtToken);
+        localStorage.setItem("username",user.displayName);
+
         navigate('/');
       }
 
@@ -59,14 +61,17 @@ export default function SignUp() {
       );
       const json = await response.json();
       if (json.success) {
+
         Cookies.set("authToken", json.jwtToken);
+        localStorage.setItem("username",first.name);
+
         navigate("/");
       } else {
-        alert("Enter valid credentials");
+        alert("Enter valid data!");
       }
     } catch (error) {
       console.log("Error in sending the data ", error);
-      alert("Enter valid credentials");
+      alert("Enter valid Data!");
     }
   };
 
@@ -79,7 +84,7 @@ export default function SignUp() {
       
       <div className="min-h-screen flex items-center justify-center bg-zinc-900 px-4">
         <Navbar />
-        <div className="w-full max-w-md bg-zinc-200 p-8 rounded-xl shadow-lg mt-5">
+        <div className="w-full max-w-md bg-orange-400 p-8 rounded-xl shadow-lg mt-5">
           <h2 className="text-2xl font-bold mb-1 text-center text-gray-800">
             Create an Account
           </h2>
@@ -93,7 +98,7 @@ export default function SignUp() {
                 name="name"
                 value={first.name}
                 onChange={onChange}
-                className="mt-1 w-full px-3 py-2 text-black border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
+                className="bg-white mt-1 w-full px-3 py-2 text-black border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
               />
             </div>
 
@@ -106,7 +111,7 @@ export default function SignUp() {
                 name="location"
                 value={first.location}
                 onChange={onChange}
-                className="mt-1 w-full px-3 py-2 text-black border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
+                className="bg-white mt-1 w-full px-3 py-2 text-black border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
               />
             </div>
 
@@ -119,7 +124,7 @@ export default function SignUp() {
                 name="email"
                 value={first.email}
                 onChange={onChange}
-                className="mt-1 w-full px-3 py-2 text-black  border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
+                className="bg-white mt-1 w-full px-3 py-2 text-black  border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
               />
               <p className="text-xs text-gray-500 mt-1">
                 We'll never share your email with anyone else.
@@ -135,7 +140,7 @@ export default function SignUp() {
                 name="password"
                 value={first.password}
                 onChange={onChange}
-                className="mt-1 w-full px-3 py-2 text-black  border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
+                className="bg-white mt-1 w-full px-3 py-2 text-black  border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
               />
             </div>
 
