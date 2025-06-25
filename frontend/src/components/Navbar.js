@@ -17,7 +17,8 @@ export default function Navbar() {
   const logout = () => {
     Cookies.remove("authToken");
     Cookies.remove("userEmail");
-    navigate("/");
+    localStorage.removeItem("username");
+    navigate("/login");
   };
 
   return (
