@@ -14,7 +14,7 @@ router.post("/checkout", async (req, res) => {
     try {
       await orderSchema.create({
         email: req.body.email,
-        orderData: data,
+        orderData: [data],
       });
 
       res.json({

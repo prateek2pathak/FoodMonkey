@@ -7,7 +7,7 @@ export default function MyOrder() {
 
     const [orderData, setOrderData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 5;
+    const ordersPerPage =Math.min(5,orderData.length);
     const navigate = useNavigate();
 
     // Pagination logic
