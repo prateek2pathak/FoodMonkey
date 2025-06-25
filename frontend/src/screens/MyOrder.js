@@ -3,19 +3,16 @@ import Navbar from "../components/Navbar";
 import Cookies from "js-cookie"
 
 export default function MyOrder() {
+
     const [orderData, setOrderData] = useState([]);
-    
     const [currentPage, setCurrentPage] = useState(1);
     const ordersPerPage = 5;
-
 
     // Pagination logic
     const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
     const currentOrders = orderData.slice(indexOfFirstOrder, indexOfLastOrder);
     const totalPages = Math.ceil(orderData.length / ordersPerPage);
-
-
 
     useEffect(() => {
         const loadData = async () => {
