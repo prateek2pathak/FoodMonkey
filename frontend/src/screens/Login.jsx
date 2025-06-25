@@ -33,9 +33,10 @@ export default function Login(){
         const data = await response.json();
 
         if(data.success){
-        Cookies.set("authToken",data.jwtToken);
-        localStorage.setItem("username",user.displayName);
-        navigate('/');
+            Cookies.set("authToken",data.jwtToken);
+            Cookies.set("userEmail",user.email,{expires:7});
+            localStorage.setItem("username",user.displayName);
+            navigate('/');
         }
 
     } catch (error) {
@@ -65,7 +66,6 @@ export default function Login(){
                 console.log('Authenticated');
                 Cookies.set("authToken",json.jwtToken,{expires:7});
                 console.log("Credentials email ",credentials.email);
-                
                 Cookies.set("userEmail",credentials.email,{expires:7});
                 localStorage.setItem("username",json.name);
                 

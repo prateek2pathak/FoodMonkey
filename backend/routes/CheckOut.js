@@ -6,20 +6,22 @@ const orderSchema = require("../model/Order");
 router.post("/checkout", async (req, res) => {
   let data = req.body.order_data;
   await data.splice(0, 0,  {OrderDate: req.body.orderDate} );
-console.log(req.body.email);
+  console.log(req.body.email);
+  console.log(data);
+  
   let eid = await orderSchema.findOne({'email': req.body.email});
   if (eid === null) {
     try {
       await orderSchema.create({
         email: req.body.email,
-        orderData: [data],
+        orderData: data,
       });
 
       res.json({
         success: true,
       });
     } catch (error) {
-      console.log("Error in checkout creating email ", error);
+      console.log("Error in checkout email ", error);
     }
   } else {
     try {

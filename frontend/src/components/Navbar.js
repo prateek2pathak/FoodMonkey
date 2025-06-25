@@ -45,7 +45,11 @@ export default function Navbar() {
                       setCartView(false);
                       navigate('/');
                     }}>
-                      <Cart />
+                      <Cart onClose = {()=>{
+                          setCartView(false);
+                          navigate('/');
+                        }}
+                      />
                     </Modal>
                   )}
 

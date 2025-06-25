@@ -6,9 +6,10 @@ router.post('/getorderdata', async (req, res) => {
     let email= req.body.email;
     try {
         const data = await Order.findOne({'email':email});
-        if(!data){
-            res.send([]);
+        if(data === null){
+            return res.send([]);
         }
+        else
         return res.send(data.orderData); // Send the data directly
     } catch (error) {
         console.error("Error fetching order data:", error);
