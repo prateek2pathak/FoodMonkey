@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import Card from "../components/Card"
 import Footer from "../components/Foot";
 import { useNavigate } from "react-router-dom";
+import ChatWidget from "../components/ChatWidget";
 
 
 
@@ -104,6 +105,7 @@ export default function Home(){
             </div>
           );
         })}
+        <ChatWidget />
     </div>
 
     <Footer />

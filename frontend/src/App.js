@@ -5,7 +5,6 @@ import Home from "./screens/Home";
 import Login from "./screens/Login";
 import SignUp from "./screens/SignUp.js";
 import { CartProvider } from "./components/ContextReducer.jsx";
-import Cart from "./screens/Cart.jsx";
 import MyOrder from "./screens/MyOrder.js";
 
 function App() {
