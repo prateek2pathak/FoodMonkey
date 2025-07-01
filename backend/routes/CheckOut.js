@@ -2,41 +2,37 @@ const express = require("express");
 const router = express.Router();
 
 const orderSchema = require("../model/Order");
+const sendOrderMail = require("../sendMails");
 
 router.post("/checkout", async (req, res) => {
   let data = req.body.order_data;
-  await data.splice(0, 0,  {OrderDate: req.body.orderDate} );
+  const {order_data,orderDate} = req.body;
+  await data.splice(0, 0, { OrderDate: req.body.orderDate });
   console.log(req.body.email);
   console.log(data);
-  
-  let eid = await orderSchema.findOne({'email': req.body.email});
-  if (eid === null) {
-    try {
-      await orderSchema.create({
-        email: req.body.email,
-        orderData: [data],
-      });
 
-      res.json({
-        success: true,
-      });
-    } catch (error) {
-      console.log("Error in checkout email ", error);
-    }
-  } else {
+  try {
+    await orderSchema.updateOne(
+      { email: req.body.email },
+      { $push: { orderData: data } },
+      { upsert: true }
+    );
+
     try {
-      await orderSchema.findOneAndUpdate(
-        {
-          email: req.body.email,
-        },
-        { $push: { orderData: data } }
-      );
-      res.json({
-        success: true,
-      });
+      
+      const cleanItems = data.slice(1); 
+      await sendOrderMail(req.body.email,cleanItems, orderDate);
+      console.log("Email sent!!");
+
     } catch (error) {
-      console.log("Error in checkout creating email ", error);
+      console.error("❌ Email failed: ", error.message);
+      res.json({ success: true, emailSent: false, message: "Order placed, but failed to send confirmation email." });
     }
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Error in checkout with upsert: ", error);
+    res.status(500).json({ success: false, error: error.message });
   }
 });
 

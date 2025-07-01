@@ -44,7 +44,7 @@ export default function Home(){
     <Navbar />
 
     {/* Greeting Section */}
-    <div className="mt-6 px-6 text-3xl font-bold">
+    <div className="pt-20 px-6 text-3xl font-bold">
       {username ? (
         <p>
           Hi, <span className="text-orange-500">{username} 👋</span>

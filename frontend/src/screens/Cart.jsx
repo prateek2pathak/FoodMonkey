@@ -23,10 +23,11 @@ export default function Cart({onClose}) {
         body: JSON.stringify({
           order_data: data,
           email: userEmail,
-          orderDate: new Date().toLocaleDateString(),
+          orderDate: new Date().toLocaleDateString('en-GB'),
         }),
       });
       dispatch({ type: "DROP" });
+      alert("Order confirmation mail sent!!");
       navigate('/');
     } catch (error) {
       console.log("Error in fetching data");
