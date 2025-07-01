@@ -1,5 +1,5 @@
 const express = require('express');
-const { default: Room } = require('../model/Room');
+const Room = require('../model/Room');
 
 const router = express.Router();
 

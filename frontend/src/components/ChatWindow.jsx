@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import Cookies from "js-cookie";
-import { io } from 'socket.io-client';
 import { useEffect, useRef } from 'react';
+import socket from '../socket';
 
 function ChatWindow({ onClose }) {
     const [room, setRoom] = useState('general');
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
     const previousRoomRef = useRef('general');
-    const socket = io(`${process.env.REACT_APP_LINK}`);
 
     const rooms = ['general', 'street-food', 'quick-meals', 'midnight-cravings'];
     const messagesEndRef = useRef(null);

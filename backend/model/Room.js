@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose= require('mongoose')
 
 const messageSchema = new mongoose.Schema({
     username:{
@@ -28,4 +28,4 @@ const roomSchema = new mongoose.Schema({
 },{timestamps:true});
 
 
-export default mongoose.model("Room",roomSchema);
+module.exports = mongoose.model("Room",roomSchema);
