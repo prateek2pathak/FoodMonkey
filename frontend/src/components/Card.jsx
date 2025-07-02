@@ -9,11 +9,13 @@ export default function Card(props){
   let priceOptions = Object.keys(options);
   let dispatch = useDispatch();
   const priceRef = useRef();
+  const [added,setAdded] = useState(false);
 
   const [qty,setQty] = useState(1);
   const [size,setSize] = useState("");
 
   const addToCart = async()=>{
+    setAdded(true);
     for(const item of cart){
       if(item.id=== props.foodItem._id && item.size=== size){
         await dispatch({type:"UPDATE",id:item.id,price: finalPrice,qty:qty});
