@@ -42,8 +42,6 @@ const generateOrderHTML = (orderData, orderDate) => {
   `;
 };
 
-
-
 const sendOrderMail = async (toEmail, orderDetails,orderDate) => {
 
     const transporter = nodeMailer.createTransport({

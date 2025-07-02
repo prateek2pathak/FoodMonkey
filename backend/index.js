@@ -1,11 +1,11 @@
 const express = require('express')
 const connectToDB = require('./database/db')
-require('dotenv').config();
 const { Server } = require('socket.io')
 const http = require('http')
 const cors = require('cors');
 const socketHandler = require('./sockets/socketHandler');
 
+require('dotenv').config();
 
 const port = process.env.PORT;
 
@@ -14,9 +14,9 @@ const app = express();
 
 
 
-// Socket part
 const server = http.createServer(app);
 
+// Socket part
 const io = new Server(server, {
     cors: {
         origin: '*',
